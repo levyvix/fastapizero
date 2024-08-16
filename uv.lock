@@ -165,6 +165,7 @@ wheels = [
 [package.optional-dependencies]
 standard = [
     { name = "uvicorn" },
+    { name = "uvicorn", extra = ["standard"] },
 ]
 
 [[package]]
@@ -174,6 +175,7 @@ source = { editable = "." }
 dependencies = [
     { name = "fastapi", extra = ["all"] },
     { name = "ignr" },
+    { name = "pydantic", extra = ["email"] },
 ]
 
 [package.dev-dependencies]
@@ -403,6 +405,11 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/8c/99/d0a5dca411e0a017762258013ba9905cd6e7baa9a3fd1fe8b6529472902e/pydantic-2.8.2.tar.gz", hash = "sha256:6f62c13d067b0755ad1c21a34bdd06c0c12625a22b0fc09c6b149816604f7c2a", size = 739834 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/1f/fa/b7f815b8c9ad021c07f88875b601222ef5e70619391ade4a49234d12d278/pydantic-2.8.2-py3-none-any.whl", hash = "sha256:73ee9fddd406dc318b885c7a2eab8a6472b68b8fb5ba8150949fc3db939f23c8", size = 423875 },
+]
+
+[package.optional-dependencies]
+email = [
+    { name = "email-validator" },
 ]
 
 [[package]]
