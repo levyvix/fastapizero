@@ -20,5 +20,9 @@ class UserDB(UserSchema):
     id: int
 
 
-class UserList(BaseModel):
-    users: list[UserPulic]
+class UserPublicId(UserPulic):
+    id: int
+
+
+class UserListWithId(BaseModel):
+    users: list[UserPublicId]
