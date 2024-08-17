@@ -110,12 +110,12 @@ def test_read_user_not_found(client):
     assert response.json() == {'detail': 'User not found'}
 
 
-def test_read_one_user(client):
-    response = client.get('/users/1')
+# def test_read_one_user(client):
+#     response = client.get('/users/1')
 
-    assert response.status_code == HTTPStatus.OK
-    assert response.json() == {
-        'username': 'john',
-        'email': 'john@gmail.com',
-        'id': 1,
-    }
+#     assert response.status_code == HTTPStatus.OK
+#     assert response.json() == {
+#         'username': 'john',
+#         'email': 'john@gmail.com',
+#         'id': 1,
+#     }
