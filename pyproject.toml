@@ -11,6 +11,9 @@ dependencies = [
     "sqlalchemy>=2.0.32",
     "pydantic-settings>=2.4.0",
     "alembic>=1.13.2",
+    "pyjwt>=2.9.0",
+    "pwdlib[argon2]>=0.2.0",
+    "python-multipart>=0.0.9",
 ]
 
 [build-system]
