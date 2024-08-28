@@ -3,9 +3,9 @@ from http import HTTPStatus
 from jwt import decode
 
 from fastapizero.security import (
-    SECRET_KEY,
     create_access_token,
     get_password_hash,
+    settings,
     verify_password,
 )
 
@@ -13,7 +13,7 @@ from fastapizero.security import (
 def test_jwt():
     data = {'username': 'levyvix'}
     token = create_access_token(data)
-    decoded = decode(token, SECRET_KEY, algorithms=['HS256'])
+    decoded = decode(token, settings.SECRET_KEY, algorithms=['HS256'])
     assert decoded['username'] == 'levyvix'
     assert decoded['exp']
 

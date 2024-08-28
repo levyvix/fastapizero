@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 from http import HTTPStatus
-from secrets import token_hex
 from zoneinfo import ZoneInfo
 
 from fastapi import Depends, HTTPException
@@ -13,22 +12,24 @@ from sqlalchemy.orm import Session
 from fastapizero.database import get_session
 from fastapizero.models import User
 from fastapizero.schemas import TokenData
+from fastapizero.settings import Settings
 
-SECRET_KEY = token_hex(32)
-ALGORITHM = 'HS256'
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+settings = Settings()
+
 pwd_context = PasswordHash.recommended()
 
 
 def create_access_token(data: dict) -> str:
     to_encode = data.copy()
     expire = datetime.now(tz=ZoneInfo('UTC')) + timedelta(
-        minutes=ACCESS_TOKEN_EXPIRE_MINUTES
+        minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
     )
 
     to_encode.update({'exp': expire})
     encoded_jwt = encode(
-        payload=to_encode, key=SECRET_KEY, algorithm=ALGORITHM
+        payload=to_encode,
+        key=settings.SECRET_KEY,
+        algorithm=settings.ALGORITHM,
     )
     return encoded_jwt
 
@@ -41,7 +42,7 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/token')
 
 
 async def get_current_user(
@@ -55,7 +56,9 @@ async def get_current_user(
     )
 
     try:
-        payload = decode(jwt=token, key=SECRET_KEY, algorithms=[ALGORITHM])
+        payload = decode(
+            jwt=token, key=settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
+        )
         username: str = payload.get('sub')
 
         if not username:
